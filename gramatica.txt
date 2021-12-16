@@ -1,0 +1,84 @@
+INICIO = LISTA_INSTRUCCION
+
+LISTA_INSTRUCCION = INSTRUCCION LISTA_INSTRUCCION2
+
+LISTA_INSTRUCCION2 = INSTRUCCION LISTA_INSTRUCCION2
+                    | EPSILON ($)
+
+INSTRUCCION = INS_CREAR_CURSO           *
+            |INS_CONSOLA                *
+            |INS_CONSOLALN              *
+            |INS_CURSOS_SEMESTRE        *
+            |INS_CURSO_CODIGO           *
+            |INS_CURSO_NOMBRE           *
+            |INS_CURSO_PREREQUISITO     *
+            |INS_CURSO_POSTREQUISITO    *
+            |INS_GENERAR_RED            *
+
+
+INS_CREAR_CURSO = crearcurso parentesisA CURSO parentesisC PuntoyComa
+
+CURSO = LISTA_VALOR
+
+LISTA_VALOR = VAL_CURSO LISTA_VALOR2
+
+LISTA_VALOR2 = coma VAL_CURSO LISTA_VALOR2
+
+VAL_CURSO = ENTERO 
+           |CADENA
+           |LISTA_PRE
+
+LISTA_PRE = corcheteA VAL_PRE LISTA_PRE2 corcheteC
+
+LISTA_PRE2 = coma VAL_PRE  LISTA_PRE2
+           | EPSILON(]) 
+
+VAL_PRE = ENTERO
+
+
+
+
+INS_CONSOLA = consola parentesisA VAL_CONSOLA parentesisC PuntoyComa
+
+VAL_CONSOLA = CADENA
+
+
+
+INS_CONSOLALN = consolaln parentesisA VAL_CONSOLALN parentesisC PuntoyComa
+
+VAL_CONSOLALN = CADENA
+
+
+
+INS_CURSOS_SEMESTRE = cursosPorSemestre parentesisA VAL_SEMESTRE parentesisC PuntoyComa
+
+VAL_SEMESTRE = ENTERO
+
+
+INS_CURSO_CODIGO = cursoPorCodigo parentesisA VAL_CODIGO parentesisC PuntoyComa
+
+VAL_CODIGO = ENTERO
+
+
+
+INS_CURSO_NOMBRE = cursoPorNombre parentesisA VAL_NOMBRE parentesisC PuntoyComa
+
+VAL_NOMBRE = CADENA
+
+
+
+INS_CURSO_PREREQUISITO = cursosPrerrequisitos parentesisA VAL_CURSO_PRE parentesisC PuntoyComa
+
+VAL_CURSO_PRE = ENTERO
+
+
+
+INS_CURSO_POSTREQUISITO = cursosPostrrequisitos parentesisA VAL_CURSO_POST parentesisC PuntoyComa
+
+VAL_CURSO_POST = ENTERO
+
+
+
+INS_GENERAR_RED = generarRed parentesisA VAL_RED parentesisC PuntoyComa
+
+VAL_RED = CADENA
