@@ -15,7 +15,7 @@ class AnalizadorLexico:
         linea = 1
         columna = 1
         buffer = ''
-        centinela = '#'
+        centinela = '$'
         estado = 0
         
         #automata
@@ -46,12 +46,12 @@ class AnalizadorLexico:
                     columna += 1
                 elif c == '[':
                     buffer += c
-                    self.listaTokens.append(Token(buffer, 'LlaveA', linea, columna))
+                    self.listaTokens.append(Token(buffer, 'CorcheteA', linea, columna))
                     buffer = ''
                     columna += 1
                 elif c == ']':
                     buffer += c
-                    self.listaTokens.append(Token(buffer, 'LlaveC', linea, columna))
+                    self.listaTokens.append(Token(buffer, 'CorcheteC', linea, columna))
                     buffer = ''
                     columna += 1
                 elif c == ';':
@@ -124,25 +124,25 @@ class AnalizadorLexico:
                     columna += 1
                 else:
                     if buffer == 'cursosPrerrequisitos':
-                        self.listaTokens.append(Token(buffer, 'REPLIST', linea, columna))
+                        self.listaTokens.append(Token(buffer, 'cursosPrerrequisitos', linea, columna))
                     elif buffer == 'cursoPorNombre':
-                        self.listaTokens.append(Token(buffer, 'NOMBRE', linea, columna))
+                        self.listaTokens.append(Token(buffer, 'cursoPorNombre', linea, columna))
                     elif buffer == 'cursoPorCodigo':
-                        self.listaTokens.append(Token(buffer, 'ARTISTA', linea, columna))
+                        self.listaTokens.append(Token(buffer, 'cursoPorCodigo', linea, columna))
                     elif buffer == 'cursosPorSemestre':
-                        self.listaTokens.append(Token(buffer, 'RUTA', linea, columna))
+                        self.listaTokens.append(Token(buffer, 'cursosPorSemestre', linea, columna))
                     elif buffer == 'consolaln':
-                        self.listaTokens.append(Token(buffer, 'GENERO', linea, columna))
+                        self.listaTokens.append(Token(buffer, 'consolaln', linea, columna))
                     elif buffer == 'consola':
-                        self.listaTokens.append(Token(buffer, 'REPETIR', linea, columna))
+                        self.listaTokens.append(Token(buffer, 'consola', linea, columna))
                     elif buffer == 'crearcurso':
-                        self.listaTokens.append(Token(buffer, 'ANIO', linea, columna))
+                        self.listaTokens.append(Token(buffer, 'crearcurso', linea, columna))
                     elif buffer == 'nombre_de_red':
-                        self.listaTokens.append(Token(buffer, 'ANIO', linea, columna))
+                        self.listaTokens.append(Token(buffer, 'nombre_de_red', linea, columna))
                     elif buffer == 'cursosPostrrequisitos':
-                        self.listaTokens.append(Token(buffer, 'ANIO', linea, columna))
+                        self.listaTokens.append(Token(buffer, 'cursosPostrrequisitos', linea, columna))
                     elif buffer == 'generarRed':
-                        self.listaTokens.append(Token(buffer, 'ANIO', linea, columna))
+                        self.listaTokens.append(Token(buffer, 'generarRed', linea, columna))
                     else:
                         self.listaErrores.append(Error(buffer + ' no es reconocido en el lenguaje.', 'Léxico', linea, columna))
                         
