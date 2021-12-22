@@ -5,9 +5,9 @@ import webbrowser
 
 Pres=[]
 Cursos=[]
-Objeto=[]
+Datos=[]
 cadena=''
-
+i=0
 
 class InstruccionImprimir():
     def __init__(self,expresion):
@@ -55,9 +55,15 @@ class InstruccionImprimirLn():
     
     def ejecutar(self,entorno):
         global cadena
+        global Cursos
         valor= self.expresion.getValor(entorno)
         print(valor)
         cadena+=valor+'\n'
+        for x in Cursos:
+            for y in x.Pre:
+                print(y)
+            print("=====")
+        
 
     def getNodos(self):
         global dot
@@ -89,59 +95,167 @@ class InstruccionImprimirLn():
         return idnodo
 
 
-class InstruccionContarSi():
+
+class InstruccionPorNombre():
     def __init__(self,expresion):
         self.expresion=expresion
     
     def ejecutar(self,entorno):
-        global registros
         global cadena
-        val= self.expresion.getValor(entorno)
-        valor=val.split(',')
-        c=0
-        l=[]
-        for x in Objeto:
-            if str(x.Clave)==str(valor[0]):
-                l=x.Listas
-        
-        for x in l:
-            if str(x)==str(valor[1]):
-                c+=1
-        print("\n>>> "+str(c))
-        cadena+="\n>>> "+str(c)
+        global Cursos
+        Encontrado=False
+        valor= self.expresion.getValor(entorno)
+        print(valor)
+        for x in Cursos:
+            if x.Nombre==valor:
+                Encontrado==True
+                cadena+="BUSCANDO POR NOMBRE ("+valor+")....\n************************\nCurso:\t"+x.Nombre+"\nSemestre:\t"+x.Semestre
+                cadena+="\nCodigo:\t"+x.Codigo+"\nPrerrequisitos:\t["
+                for y in x.Pre:
+                    cadena+=y+","
+                cadena+="]\n************************\n\n"
+                break
+        if Encontrado==False:
+            cadena+="BUSCANDO POR NOMBRE ("+valor+")....\n***************************\nNO HAY RESULTADOS PARA LA BUSQUEDA\n***************************\n\n"
 
 
     def getNodos(self):
         global dot
         idnodo=str(Inicio())
-        dot.node(idnodo,'INS_CONTARSI')
+        dot.node(idnodo,'INS_BUSCAR_CURSO_NOMBRE')
 
         idClav=str(Inicio())
-        dot.node(idClav,'contarsi')
+        dot.node(idClav,'cursoPorNombre')
         
 
-        idCorA=str(Inicio())
-        dot.node(idCorA,'(')
+        idParA=str(Inicio())
+        dot.node(idParA,'(')
         
-
         hijo= self.expresion.getNodos()
         
-        
-        idCorC=str(Inicio())
-        dot.node(idCorC,')')
+        idParC=str(Inicio())
+        dot.node(idParC,')')
 
         idPC=str(Inicio())
         dot.node(idPC,';')
 
         dot.edge(idnodo,idClav)
-        dot.edge(idnodo,idCorA)
+        dot.edge(idnodo,idParA)
         dot.edge(idnodo,hijo)
-        dot.edge(idnodo,idCorC)
+        dot.edge(idnodo,idParC)
         dot.edge(idnodo,idPC)
         
 
         return idnodo
+
+
+
+class InstruccionPorCodigo():
+    def __init__(self,expresion):
+        self.expresion=expresion
+    
+    def ejecutar(self,entorno):
+        global cadena
+        global Cursos
+        Encontrado=False
+        valor= self.expresion.getValor(entorno)
+        print(valor)
+        for x in Cursos:
+            if x.Codigo==valor:
+                Encontrado=True
+                cadena+="BUSCANDO POR CODIGO ("+valor+")....\n************************\nCurso:\t"+x.Nombre+"\nSemestre:\t"+x.Semestre
+                cadena+="\nCodigo:\t"+x.Codigo+"\nPrerrequisitos:\t["
+                for y in x.Pre:
+                    cadena+=y+","
+                cadena+="]\n************************\n\n"
+                break
+        if Encontrado==False:
+            cadena+="BUSCANDO POR CODIGO ("+valor+")....\n***************************\nNO HAY RESULTADOS PARA LA BUSQUEDA\n***************************\n\n"
+
+    def getNodos(self):
+        global dot
+        idnodo=str(Inicio())
+        dot.node(idnodo,'INS_BUSCAR_CURSO_CODIGO')
+
+        idClav=str(Inicio())
+        dot.node(idClav,'cursoPorCodigo')
         
+
+        idParA=str(Inicio())
+        dot.node(idParA,'(')
+        
+        hijo= self.expresion.getNodos()
+        
+        idParC=str(Inicio())
+        dot.node(idParC,')')
+
+        idPC=str(Inicio())
+        dot.node(idPC,';')
+
+        dot.edge(idnodo,idClav)
+        dot.edge(idnodo,idParA)
+        dot.edge(idnodo,hijo)
+        dot.edge(idnodo,idParC)
+        dot.edge(idnodo,idPC)
+        
+
+        return idnodo
+
+   
+class InstruccionPorSemestre():
+    def __init__(self,expresion):
+        self.expresion=expresion
+    
+    def ejecutar(self,entorno):
+        global cadena
+        global Cursos
+        Encontrado=False
+        valor= self.expresion.getValor(entorno)
+        print(valor)
+        cadena+="BUSCANDO POR SEMESTRE ("+valor+")....\n****************************\n"
+        for x in Cursos:
+            if x.Semestre==valor:
+                Encontrado=True
+                cadena+="\nCurso:\t"+x.Nombre+"\nSemestre:\t"+x.Semestre
+                cadena+="\nCodigo:\t"+x.Codigo+"\nPrerrequisitos:\t["
+                for y in x.Pre:
+                    cadena+=y+","
+                cadena+="]\n"
+        
+        if Encontrado==False:
+            cadena+="NO HAY RESULTADOS PARA LA BUSQUEDA"
+        cadena+="\n****************************\n\n"
+
+    def getNodos(self):
+        global dot
+        idnodo=str(Inicio())
+        dot.node(idnodo,'INS_BUSCAR_CURSO_SEMESTRE')
+
+        idClav=str(Inicio())
+        dot.node(idClav,'cursoPorSemestre')
+        
+
+        idParA=str(Inicio())
+        dot.node(idParA,'(')
+        
+        hijo= self.expresion.getNodos()
+        
+        idParC=str(Inicio())
+        dot.node(idParC,')')
+
+        idPC=str(Inicio())
+        dot.node(idPC,';')
+
+        dot.edge(idnodo,idClav)
+        dot.edge(idnodo,idParA)
+        dot.edge(idnodo,hijo)
+        dot.edge(idnodo,idParC)
+        dot.edge(idnodo,idPC)
+        
+
+        return idnodo
+
+
 
 
 class InstruccionListaVaLPre2():
@@ -171,7 +285,6 @@ class InstruccionListaVaLPre2():
             dot.edge(idnodo,hijo)
 
             if self.lista:
-
                 hijo2=self.lista.getNodos()
                 dot.edge(idnodo,hijo2)
 
@@ -193,50 +306,15 @@ class InstruccionListaValPre():
     def getNodos(self):
         global dot
         idnodo=str(Inicio())
-        dot.node(idnodo,"LISTA_VAL_REG")
+        dot.node(idnodo,"LISTA_VAL_PRE")
         if self.expresion:
 
             hijo=self.expresion.getNodos()
             dot.edge(idnodo,hijo)
 
             if self.lista:
-
                 hijo2=self.lista.getNodos()
                 dot.edge(idnodo,hijo2)
-
-        return idnodo
-
-    def __init__(self,instruccion,lista):
-        self.expresion=instruccion
-        self.lista=lista
-    
-    def ejecutar(self,entorno):
-        if self.expresion:
-            self.expresion.ejecutar(entorno)
-            if self.lista:
-                self.lista.ejecutar(entorno)
-
-    def getNodos(self):
-        global dot
-        idnodo=str(Inicio())
-        dot.node(idnodo,"LISTA_REGISTROS")
-        if self.expresion:
-            idLlaveA=str(Inicio())
-            dot.node(idLlaveA,'{')
-            dot.edge(idnodo,idLlaveA)
-
-            hijo=self.expresion.getNodos()
-            dot.edge(idnodo,hijo)
-
-            idLlaveC=str(Inicio())
-            dot.node(idLlaveC,'}')
-            dot.edge(idnodo,idLlaveC)
-
-            if self.lista:
-
-                hijo2=self.lista.getNodos()
-                dot.edge(idnodo,hijo2)
-
         return idnodo
 
 class InstruccionListaValRegistros2():
@@ -245,17 +323,17 @@ class InstruccionListaValRegistros2():
         self.lista=lista
     
     def ejecutar(self,entorno):
-        global registros
+        
         if self.instruccion:
             r=self.instruccion.getValor(entorno)
-            registros.append(r)
+            Datos.append(r)
             if self.lista:
                 self.lista.ejecutar(entorno)
 
     def getNodos(self):
         global dot
         idnodo=str(Inicio())
-        dot.node(idnodo,"LISTA_VAL_REG2")
+        dot.node(idnodo,"LISTA_VAL_CURSO2")
         if self.instruccion:
             
             idComa=str(Inicio())
@@ -278,54 +356,21 @@ class InstruccionListaValRegistros():
         self.lista=lista
     
     def ejecutar(self,entorno):
-        global registros
+        
         if self.expresion:
             r=self.expresion.getValor(entorno)
-            registros.append(r) 
+            Datos.append(r) 
             if self.lista:
                 self.lista.ejecutar(entorno)
 
     def getNodos(self):
         global dot
         idnodo=str(Inicio())
-        dot.node(idnodo,"LISTA_VAL_REG")
+        dot.node(idnodo,"LISTA_VAL_CURSO")
         if self.expresion:
 
             hijo=self.expresion.getNodos()
             dot.edge(idnodo,hijo)
-
-            if self.lista:
-
-                hijo2=self.lista.getNodos()
-                dot.edge(idnodo,hijo2)
-
-        return idnodo
-
-    def __init__(self,instruccion,lista):
-        self.expresion=instruccion
-        self.lista=lista
-    
-    def ejecutar(self,entorno):
-        if self.expresion:
-            self.expresion.ejecutar(entorno)
-            if self.lista:
-                self.lista.ejecutar(entorno)
-
-    def getNodos(self):
-        global dot
-        idnodo=str(Inicio())
-        dot.node(idnodo,"LISTA_REGISTROS")
-        if self.expresion:
-            idLlaveA=str(Inicio())
-            dot.node(idLlaveA,'{')
-            dot.edge(idnodo,idLlaveA)
-
-            hijo=self.expresion.getNodos()
-            dot.edge(idnodo,hijo)
-
-            idLlaveC=str(Inicio())
-            dot.node(idLlaveC,'}')
-            dot.edge(idnodo,idLlaveC)
 
             if self.lista:
 
@@ -335,58 +380,60 @@ class InstruccionListaValRegistros():
         return idnodo
 
 class InstruccionRegistro():
+    
     def __init__(self,instruccion):
         
         self.instruccion=instruccion
     
     def ejecutar(self,entorno):
-        global cadena
-        global Objeto
+        global Cursos
         self.instruccion.ejecutar(entorno)
-        
+        self.Armar(Cursos)
         
 
     def Armar(self,lista):
+        global Cursos
+        global Pres
+        global Datos
+        Semestre=Datos[0]
+        Cod=Datos[1]
+        Nom=Datos[2]
+        Curso=Objetos(Semestre,Cod,Nom)
+        for x in Pres:
+            Curso.Pre.append(x)
+        Cursos.append(Curso)
+        Pres.clear()
+        Datos.clear()
         
-        global Objeto
-        c=0
-        c2=0
-        while c < len(lista):
-            if c2<len(Objeto):
-                Objeto[c2].Listas.append(lista[c])
-                c2+=1
-                c+=1
-            else:
-                c2=0
+        
 
     def getNodos(self):
         global dot
         idnodo=str(Inicio())
-        dot.node(idnodo,'INS_REGISTRO')
+        dot.node(idnodo,'INS_CREAR_CURSO')
 
         idClav=str(Inicio())
-        dot.node(idClav,'Registro')
+        dot.node(idClav,'crearcurso')
         
 
-        idigual=str(Inicio())
-        dot.node(idigual,'=')
-        
-
-        idCorA=str(Inicio())
-        dot.node(idCorA,'[')
+        idParA=str(Inicio())
+        dot.node(idParA,'(')
         
 
         hijo= self.instruccion.getNodos()
         
         
-        idCorC=str(Inicio())
-        dot.node(idCorC,']')
+        idParC=str(Inicio())
+        dot.node(idParC,')')
+
+        idPunCom=str(Inicio())
+        dot.node(idPunCom,';')
 
         dot.edge(idnodo,idClav)
-        dot.edge(idnodo,idigual)
-        dot.edge(idnodo,idCorA)
+        dot.edge(idnodo,idParA)
         dot.edge(idnodo,hijo)
-        dot.edge(idnodo,idCorC)
+        dot.edge(idnodo,idParC)
+        dot.edge(idnodo,idPunCom)
         
 
         return idnodo

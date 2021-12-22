@@ -108,9 +108,7 @@ class Ui_MainWindow(object):
         self.Sintactico.ImpErrores()
         self.ConsolaArea.setText(cadena)
 
-
     def FuncionCargar(self):
-        
         buscar = QFileDialog.getOpenFileName()
         self.Ruta=buscar[0]
         size=len(buscar[0])

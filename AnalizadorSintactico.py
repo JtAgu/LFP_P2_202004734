@@ -44,6 +44,7 @@ class AnalizadorSintactico:
                     self.i += 1 
                     if self.ListaTokens[self.i].tipo == 'PUNTO_COMA' :
                         self.i += 1 
+                        print(self.ListaTokens[self.i].tipo)
                         return InstruccionImprimir(expresion)
                     else:
                         self.listaErrores.append(Error("Se esperaba ;","Sintactico",self.ListaTokens[self.i].linea,self.ListaTokens[self.i].columna+1))
@@ -141,7 +142,7 @@ class AnalizadorSintactico:
                     self.i += 1 
                     if self.ListaTokens[self.i].tipo == 'PUNTO_COMA' :
                         self.i += 1 
-                        return InstruccionImprimir(expresion)
+                        return InstruccionPorNombre(expresion)
                     else:
                         self.listaErrores.append(Error("Se esperaba ;","Sintactico",self.ListaTokens[self.i].linea,self.ListaTokens[self.i].columna+1))
                 else:
@@ -227,7 +228,7 @@ class AnalizadorSintactico:
                     self.i += 1 
                     if self.ListaTokens[self.i].tipo == 'PUNTO_COMA' :
                         self.i += 1 
-                        return InstruccionImprimir(expresion)
+                        return InstruccionPorCodigo(expresion)
                     else:
                         self.listaErrores.append(Error("Se esperaba ;","Sintactico",self.ListaTokens[self.i].linea,self.ListaTokens[self.i].columna+1))
                 else:
@@ -246,7 +247,7 @@ class AnalizadorSintactico:
             self.listaErrores.append(Error("Se esperaba valor de entrada","Sintactico",self.ListaTokens[self.i].linea,self.ListaTokens[self.i].columna+1))
 
     def ins_cursoSemestre(self):
-        if self.ListaTokens[self.i].tipo == 'cursoPorSemestre' :
+        if self.ListaTokens[self.i].tipo == 'cursosPorSemestre' :
             self.i += 1
             if self.ListaTokens[self.i].tipo == 'ParentesisA' :
                 self.i += 1
@@ -255,7 +256,7 @@ class AnalizadorSintactico:
                     self.i += 1 
                     if self.ListaTokens[self.i].tipo == 'PUNTO_COMA' :
                         self.i += 1 
-                        return InstruccionImprimir(expresion)
+                        return InstruccionPorSemestre(expresion)
                     else:
                         self.listaErrores.append(Error("Se esperaba ;","Sintactico",self.ListaTokens[self.i].linea,self.ListaTokens[self.i].columna+1))
                 else:
@@ -268,11 +269,13 @@ class AnalizadorSintactico:
 #CREAR CURSO
 
     def ValPre(self):
-        if self.ListaTokens[self.i].tipo=='entero':
+        if self.ListaTokens[self.i].tipo=='ENTERO':
             lexema=self.ListaTokens[self.i].lexema
             exp=ExpresionLiteral('entero',lexema)
             self.i+=1
             return exp
+        elif self.ListaTokens[self.i].tipo=='CorcheteC':
+            pass
         else: 
             self.listaErrores.append(Error("Token "+self.ListaTokens[self.i].tipo+" no esperado","Sintactico",self.ListaTokens[self.i].linea,self.ListaTokens[self.i].columna+1))
 
@@ -282,6 +285,8 @@ class AnalizadorSintactico:
             exp=self.ValPre()
             lista=self.Lista_Pre2()
             return InstruccionListaVaLPre2(exp,lista)
+        elif self.ListaTokens[self.i].tipo=='CorcheteC':
+            pass
         else: 
             self.listaErrores.append(Error("Token "+self.ListaTokens[self.i].tipo+" no esperado","Sintactico",self.ListaTokens[self.i].linea,self.ListaTokens[self.i].columna+1))    
 
@@ -292,7 +297,7 @@ class AnalizadorSintactico:
             lista=self.Lista_Pre2()
             if self.ListaTokens[self.i].tipo=='CorcheteC':
                 self.i += 1 
-                return InstruccionListaValPre(lista)
+                return InstruccionListaValPre(exp,lista)
         else: 
             self.listaErrores.append(Error("Token "+self.ListaTokens[self.i].tipo+" no esperado","Sintactico",self.ListaTokens[self.i].linea,self.ListaTokens[self.i].columna+1))
 
@@ -309,6 +314,8 @@ class AnalizadorSintactico:
             return exp
         elif self.ListaTokens[self.i].tipo == 'CorcheteA' :
             lista=self.Lista_Pre()
+            exp=ExpresionLiteral('cadena',"")
+            return exp
         else: 
             self.listaErrores.append(Error("Token "+self.ListaTokens[self.i].tipo+" no esperado","Sintactico",self.ListaTokens[self.i].linea,self.ListaTokens[self.i].columna+1))
 
@@ -340,13 +347,43 @@ class AnalizadorSintactico:
                 lista=self.Curso()
                 if self.ListaTokens[self.i].tipo == 'ParentesisC' :
                     self.i += 1 
-                    return InstruccionRegistro(lista)
+                    if self.ListaTokens[self.i].tipo == 'PUNTO_COMA' :
+                        self.i += 1 
+                        return InstruccionRegistro(lista)
                 else:
                     self.listaErrores.append(Error("Se esperaba )","Sintactico",self.ListaTokens[self.i].linea,self.ListaTokens[self.i].columna+1))
             else:
                 self.listaErrores.append(Error("Se esperaba (","Sintactico",self.ListaTokens[self.i].linea,self.ListaTokens[self.i].columna+1))
         else:
             self.listaErrores.append(Error("Se esperaba crearcurso","Sintactico",self.ListaTokens[self.i].linea,self.ListaTokens[self.i].columna+1))
+
+#NombreDeRed
+    def val_nombrandoRed(self):
+        if self.ListaTokens[self.i].tipo == 'CADENA' :
+            lexema=self.ListaTokens[self.i].lexema
+            expresion=ExpresionLiteral('cadena',lexema)
+            self.i+= 1
+            return expresion
+        else: 
+            self.listaErrores.append(Error("Se esperaba valor de entrada","Sintactico",self.ListaTokens[self.i].linea,self.ListaTokens[self.i].columna+1))
+
+    def ins_nombrandoRed(self):
+        if self.ListaTokens[self.i].tipo == 'nombre_de_red' :
+            self.i += 1
+            if self.ListaTokens[self.i].tipo == 'ParentesisA' :
+                self.i += 1
+                expresion=self.val_nombrandoRed()
+                if self.ListaTokens[self.i].tipo == 'ParentesisC' :
+                    self.i += 1 
+                    if self.ListaTokens[self.i].tipo == 'PUNTO_COMA' :
+                        self.i += 1 
+                        return InstruccionImprimir(expresion)
+                    else:
+                        self.listaErrores.append(Error("Se esperaba ;","Sintactico",self.ListaTokens[self.i].linea,self.ListaTokens[self.i].columna+1))
+                else:
+                    self.listaErrores.append(Error("Se esperaba )","Sintactico",self.ListaTokens[self.i].linea,self.ListaTokens[self.i].columna+1))
+            else:
+                self.listaErrores.append(Error("Se esperaba (","Sintactico",self.ListaTokens[self.i].linea,self.ListaTokens[self.i].columna+1))
 
 
 
@@ -355,7 +392,9 @@ class AnalizadorSintactico:
         if self.ListaTokens[self.i].tipo=="crearcurso":
             ins=self.ins_CrearCurso()
             return InstruccionInstruccion(ins)
-
+        elif self.ListaTokens[self.i].tipo=="nombre_de_red":
+            ins=self.ins_nombrandoRed()
+            return InstruccionInstruccion(ins)
         elif self.ListaTokens[self.i].tipo == 'consolaln' :
             ins=self.ins_imprimirln()
             return InstruccionInstruccion(ins)
@@ -393,6 +432,10 @@ class AnalizadorSintactico:
 
     def Lista_Instrucciones2(self):
         if self.ListaTokens[self.i].tipo=="crearcurso":
+            ins=self.instruccion()
+            lista=self.Lista_Instrucciones2()
+            return InstruccionListaInstrucciones2(ins,lista)
+        elif self.ListaTokens[self.i].tipo=="nombre_de_red":
             ins=self.instruccion()
             lista=self.Lista_Instrucciones2()
             return InstruccionListaInstrucciones2(ins,lista)
@@ -437,6 +480,10 @@ class AnalizadorSintactico:
         
     def Lista_Instrucciones(self):
         if self.ListaTokens[self.i].tipo=="crearcurso":
+            ins=self.instruccion()
+            lista=self.Lista_Instrucciones2()
+            return InstruccionListaInstrucciones(ins,lista)
+        elif self.ListaTokens[self.i].tipo=="nombre_de_red":
             ins=self.instruccion()
             lista=self.Lista_Instrucciones2()
             return InstruccionListaInstrucciones(ins,lista)
@@ -491,11 +538,11 @@ class AnalizadorSintactico:
         self.ListaTokens=Lista
         arbol=self.inicio()
         if len(self.listaErrores)==0:
-            #arbol.ejecutar({})
-            #arbol.getNodos()
+            arbol.ejecutar({})
+            arbol.getNodos()
             c=cadenas()
             cadena=c.Getearxd()
-            #print(cadena)
+            print(cadena)
         else:
             cadena="¡¡¡ERROR SINTACTICO!!!\n"+self.listaErrores[0].descripcion+" en linea "+ str(self.listaErrores[0].linea)+" columna "+str(self.listaErrores[0].columna)
         return cadena

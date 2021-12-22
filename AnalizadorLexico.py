@@ -17,7 +17,7 @@ class AnalizadorLexico:
         buffer = ''
         centinela = '$'
         estado = 0
-        
+        codigo_fuente+=centinela
         #automata
         i = 0
 
@@ -86,6 +86,9 @@ class AnalizadorLexico:
                 elif c == '\r':
                     pass
                 elif c == centinela:
+                    buffer += c
+                    self.listaTokens.append(Token(buffer, 'EOF', linea, columna))
+                    buffer = ''
                     print('Se aceptó la cadena!')
                     break
                 else:
@@ -119,7 +122,10 @@ class AnalizadorLexico:
                     columna += 1
 
             elif estado == 3:
-                if re.search('[a-z]', c):
+                if re.search('[a-zA-Z]', c):
+                    buffer += c
+                    columna += 1
+                elif c=='_':
                     buffer += c
                     columna += 1
                 else:

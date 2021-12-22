@@ -19,16 +19,19 @@ crearcurso(3, 107, 'MI1', [103]);
 crearcurso(3, 150, 'Fisica 1', [103, 147]);
 
 consola('Hola');
+
 consolaln('Como estas?');
 
-cursosPorSemestre(1);
 
-cursoPorCódigo(150);
+
+cursoPorCodigo(150);
 
 cursoPorNombre('Tecnica Complementaria 1');
 
 cursosPrerrequisitos(150);
 
 cursosPostrrequisitos(103);
+
+cursosPorSemestre(1);
 
 generarRed('Pensum de Sistemas');

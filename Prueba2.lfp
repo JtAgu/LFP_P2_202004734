@@ -1,0 +1,8 @@
+crearcurso(1, 17, 'Social Humanistica 1', []);
+crearcurso(1, 101, 'MB1', []);
+crearcurso(1, 69, 'Tecnica Complementaria 1', []);
+crearcurso(2, 19, 'Social Humanistica 2', [17]);
+
+cursosPorSemestre(1);
+
+cursosPorSemestre(3);

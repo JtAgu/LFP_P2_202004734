@@ -1,0 +1,259 @@
+// png
+graph arbol {
+	node [shape=circle]
+	edge [color=black]
+	splines=false
+	1 [label=INICIO]
+	2 [label=LISTA_INSTRUCCIONES]
+	3 [label=INSTRUCCION]
+	4 [label=INS_CREAR_CURSO]
+	5 [label=crearcurso]
+	6 [label="("]
+	7 [label=LISTA_VAL_CURSO]
+	8 [label=expresion]
+	9 [label=literal]
+	10 [label=1]
+	9 -- 10
+	8 -- 9
+	7 -- 8
+	11 [label=LISTA_VAL_CURSO2]
+	12 [label=","]
+	11 -- 12
+	13 [label=expresion]
+	14 [label=literal]
+	15 [label=17]
+	14 -- 15
+	13 -- 14
+	11 -- 13
+	16 [label=LISTA_VAL_CURSO2]
+	17 [label=","]
+	16 -- 17
+	18 [label=expresion]
+	19 [label=literal]
+	20 [label="Social Humanistica 1"]
+	19 -- 20
+	18 -- 19
+	16 -- 18
+	21 [label=LISTA_VAL_CURSO2]
+	22 [label=","]
+	21 -- 22
+	23 [label=expresion]
+	24 [label=literal]
+	25 [label=""]
+	24 -- 25
+	23 -- 24
+	21 -- 23
+	16 -- 21
+	11 -- 16
+	7 -- 11
+	26 [label=")"]
+	27 [label=";"]
+	4 -- 5
+	4 -- 6
+	4 -- 7
+	4 -- 26
+	4 -- 27
+	3 -- 4
+	2 -- 3
+	28 [label=LISTA_INSTRUCCIONES2]
+	29 [label=INSTRUCCION]
+	30 [label=INS_CREAR_CURSO]
+	31 [label=crearcurso]
+	32 [label="("]
+	33 [label=LISTA_VAL_CURSO]
+	34 [label=expresion]
+	35 [label=literal]
+	36 [label=1]
+	35 -- 36
+	34 -- 35
+	33 -- 34
+	37 [label=LISTA_VAL_CURSO2]
+	38 [label=","]
+	37 -- 38
+	39 [label=expresion]
+	40 [label=literal]
+	41 [label=101]
+	40 -- 41
+	39 -- 40
+	37 -- 39
+	42 [label=LISTA_VAL_CURSO2]
+	43 [label=","]
+	42 -- 43
+	44 [label=expresion]
+	45 [label=literal]
+	46 [label=MB1]
+	45 -- 46
+	44 -- 45
+	42 -- 44
+	47 [label=LISTA_VAL_CURSO2]
+	48 [label=","]
+	47 -- 48
+	49 [label=expresion]
+	50 [label=literal]
+	51 [label=""]
+	50 -- 51
+	49 -- 50
+	47 -- 49
+	42 -- 47
+	37 -- 42
+	33 -- 37
+	52 [label=")"]
+	53 [label=";"]
+	30 -- 31
+	30 -- 32
+	30 -- 33
+	30 -- 52
+	30 -- 53
+	29 -- 30
+	28 -- 29
+	54 [label=LISTA_INSTRUCCIONES2]
+	55 [label=INSTRUCCION]
+	56 [label=INS_CREAR_CURSO]
+	57 [label=crearcurso]
+	58 [label="("]
+	59 [label=LISTA_VAL_CURSO]
+	60 [label=expresion]
+	61 [label=literal]
+	62 [label=1]
+	61 -- 62
+	60 -- 61
+	59 -- 60
+	63 [label=LISTA_VAL_CURSO2]
+	64 [label=","]
+	63 -- 64
+	65 [label=expresion]
+	66 [label=literal]
+	67 [label=69]
+	66 -- 67
+	65 -- 66
+	63 -- 65
+	68 [label=LISTA_VAL_CURSO2]
+	69 [label=","]
+	68 -- 69
+	70 [label=expresion]
+	71 [label=literal]
+	72 [label="Tecnica Complementaria 1"]
+	71 -- 72
+	70 -- 71
+	68 -- 70
+	73 [label=LISTA_VAL_CURSO2]
+	74 [label=","]
+	73 -- 74
+	75 [label=expresion]
+	76 [label=literal]
+	77 [label=""]
+	76 -- 77
+	75 -- 76
+	73 -- 75
+	68 -- 73
+	63 -- 68
+	59 -- 63
+	78 [label=")"]
+	79 [label=";"]
+	56 -- 57
+	56 -- 58
+	56 -- 59
+	56 -- 78
+	56 -- 79
+	55 -- 56
+	54 -- 55
+	80 [label=LISTA_INSTRUCCIONES2]
+	81 [label=INSTRUCCION]
+	82 [label=INS_CREAR_CURSO]
+	83 [label=crearcurso]
+	84 [label="("]
+	85 [label=LISTA_VAL_CURSO]
+	86 [label=expresion]
+	87 [label=literal]
+	88 [label=2]
+	87 -- 88
+	86 -- 87
+	85 -- 86
+	89 [label=LISTA_VAL_CURSO2]
+	90 [label=","]
+	89 -- 90
+	91 [label=expresion]
+	92 [label=literal]
+	93 [label=19]
+	92 -- 93
+	91 -- 92
+	89 -- 91
+	94 [label=LISTA_VAL_CURSO2]
+	95 [label=","]
+	94 -- 95
+	96 [label=expresion]
+	97 [label=literal]
+	98 [label="Social Humanistica 2"]
+	97 -- 98
+	96 -- 97
+	94 -- 96
+	99 [label=LISTA_VAL_CURSO2]
+	100 [label=","]
+	99 -- 100
+	101 [label=expresion]
+	102 [label=literal]
+	103 [label=""]
+	102 -- 103
+	101 -- 102
+	99 -- 101
+	94 -- 99
+	89 -- 94
+	85 -- 89
+	104 [label=")"]
+	105 [label=";"]
+	82 -- 83
+	82 -- 84
+	82 -- 85
+	82 -- 104
+	82 -- 105
+	81 -- 82
+	80 -- 81
+	106 [label=LISTA_INSTRUCCIONES2]
+	107 [label=INSTRUCCION]
+	108 [label=INS_BUSCAR_CURSO_SEMESTRE]
+	109 [label=cursoPorSemestre]
+	110 [label="("]
+	111 [label=expresion]
+	112 [label=literal]
+	113 [label=1]
+	112 -- 113
+	111 -- 112
+	114 [label=")"]
+	115 [label=";"]
+	108 -- 109
+	108 -- 110
+	108 -- 111
+	108 -- 114
+	108 -- 115
+	107 -- 108
+	106 -- 107
+	116 [label=LISTA_INSTRUCCIONES2]
+	117 [label=INSTRUCCION]
+	118 [label=INS_BUSCAR_CURSO_SEMESTRE]
+	119 [label=cursoPorSemestre]
+	120 [label="("]
+	121 [label=expresion]
+	122 [label=literal]
+	123 [label=3]
+	122 -- 123
+	121 -- 122
+	124 [label=")"]
+	125 [label=";"]
+	118 -- 119
+	118 -- 120
+	118 -- 121
+	118 -- 124
+	118 -- 125
+	117 -- 118
+	116 -- 117
+	126 [label=LISTA_INSTRUCCIONES2]
+	127 [label="$"]
+	126 -- 127
+	116 -- 126
+	106 -- 116
+	80 -- 106
+	54 -- 80
+	28 -- 54
+	2 -- 28
+	1 -- 2
+}
