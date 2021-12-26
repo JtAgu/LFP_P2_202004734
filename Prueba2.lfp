@@ -16,7 +16,7 @@ crearcurso(3, 795, 'Logica de Sistemas', [103]);
 crearcurso(3, 960, 'Mate Computo 1', [103]);
 crearcurso(3, 770, 'Intr. a la prog. y computacion 1', [103]);
 crearcurso(3, 107, 'MI1', [103]);
-crearcurso(3, 150, 'Fisica 1', [103, 147]);
+crearcurso(3, 150, 'Fisica 1', [103, 147]); 
 
 consola('Hola');
 
@@ -33,5 +33,7 @@ cursosPrerrequisitos(150);
 cursosPostrrequisitos(103);
 
 cursosPorSemestre(1)%%%%%%%%%%;
+
+generarRed("PRUEBA_RED")
 *****
 ???

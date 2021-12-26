@@ -44,8 +44,7 @@ class AnalizadorSintactico:
                     self.i += 1 
                     if self.ListaTokens[self.i].tipo == 'PUNTO_COMA' :
                         self.i += 1 
-                        print(self.ListaTokens[self.i].tipo)
-                        return InstruccionImprimir(expresion)
+                        return InstruccionGenerarRed(expresion)
                     else:
                         self.listaErrores.append(Error("Se esperaba ;","Sintactico",self.ListaTokens[self.i].linea,self.ListaTokens[self.i].columna+1))
                 else:

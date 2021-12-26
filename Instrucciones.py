@@ -2,6 +2,7 @@ from Expresiones import*
 from objeto import Objetos
 import copy
 import webbrowser
+import os
 
 nombre=""
 Pres=[]
@@ -9,6 +10,63 @@ Cursos=[]
 Datos=[]
 cadena=''
 i=0
+
+class InstruccionGenerarRed():
+    def __init__(self,expresion):
+        self.expresion=expresion
+    
+    def ejecutar(self,entorno):
+        global Cursos
+        global nombre
+        valor= self.expresion.getValor(entorno)
+        valor=valor.replace(" ","_")
+        archivo=open(valor+".dot","w")
+        archivo.write("digraph "+valor+"{\n")
+        archivo.write("label="+valor+"\n")
+        for x in Cursos:
+            archivo.write(x.Codigo+'[label=" Cod '+x.Codigo+' | '+x.Nombre+'" shape="box"]\n')
+        for x in Cursos:
+            for y in x.Pre:
+                archivo.write(y+' -> '+x.Codigo+"\n")
+        
+        archivo.write("}")
+        archivo.close()
+        
+        #os.environ["PATH"] += os.pathsep + 'C:/Program Files/Graphviz/bin'
+        os.system('dot -Tpng '+valor+'.dot -o '+valor+'.png')
+        webbrowser.open_new_tab(valor+'.png')
+
+
+    def getNodos(self):
+        global dot
+        idnodo=str(Inicio())
+        dot.node(idnodo,'INS_GENERAR_RED')
+
+        idClav=str(Inicio())
+        dot.node(idClav,'generar_Red')
+        
+
+        idCorA=str(Inicio())
+        dot.node(idCorA,'(')
+        
+        hijo= self.expresion.getNodos()
+
+        idCorC=str(Inicio())
+        dot.node(idCorC,')')
+
+        idPC=str(Inicio())
+        dot.node(idPC,';')
+
+        dot.edge(idnodo,idClav)
+        dot.edge(idnodo,idCorA)
+        dot.edge(idnodo,hijo)
+        dot.edge(idnodo,idCorC)
+        dot.edge(idnodo,idPC)
+        
+
+        return idnodo
+
+
 
 class InstruccionNombrandoRed():
     def __init__(self,expresion):
@@ -50,7 +108,6 @@ class InstruccionNombrandoRed():
         
 
         return idnodo
-
 
 
 class InstruccionImprimir():
