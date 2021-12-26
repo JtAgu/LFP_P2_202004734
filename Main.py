@@ -92,6 +92,8 @@ class Ui_MainWindow(object):
         self.CmbReporte.setItemText(0, _translate("MainWindow", "ERRORES"))
         self.CmbReporte.setItemText(1, _translate("MainWindow", "TOKENS"))
         self.CmbReporte.setItemText(2, _translate("MainWindow", "DERIVACION"))
+        self.BTN_Analizar.setDisabled(True)
+        self.BTN_Reportar.setDisabled(True)
 
     def Analizar(self):
         self.scanner.listaErrores=[]
@@ -107,6 +109,8 @@ class Ui_MainWindow(object):
         cadena=self.Sintactico.analizar(self.scanner.listaTokens)
         self.Sintactico.ImpErrores()
         self.ConsolaArea.setText(cadena)
+        self.BTN_Reportar.setDisabled(True)
+        
 
     def FuncionCargar(self):
         buscar = QFileDialog.getOpenFileName()
@@ -122,6 +126,7 @@ class Ui_MainWindow(object):
             contenido = codigo_fuente.read()
             codigo_fuente.close()
             self.CodigoArea.setText(contenido)
+            self.BTN_Analizar.setDisabled(False)
         else:
             msg=QMessageBox()
             msg.setWindowTitle("OCURRIO UN ERROR")

@@ -3,11 +3,55 @@ from objeto import Objetos
 import copy
 import webbrowser
 
+nombre=""
 Pres=[]
 Cursos=[]
 Datos=[]
 cadena=''
 i=0
+
+class InstruccionNombrandoRed():
+    def __init__(self,expresion):
+        self.expresion=expresion
+    
+    def ejecutar(self,entorno):
+        global nombre
+        global cadena
+        valor= self.expresion.getValor(entorno)
+        nombre=valor
+        cadena+=" ************************"+valor+'************************\n\n'
+        
+
+    def getNodos(self):
+        global dot
+        idnodo=str(Inicio())
+        dot.node(idnodo,'INS_NOMBRANDO_RED')
+
+        idClav=str(Inicio())
+        dot.node(idClav,'nombre_de_red')
+        
+
+        idCorA=str(Inicio())
+        dot.node(idCorA,'(')
+        
+        hijo= self.expresion.getNodos()
+        
+        idCorC=str(Inicio())
+        dot.node(idCorC,')')
+
+        idPC=str(Inicio())
+        dot.node(idPC,';')
+
+        dot.edge(idnodo,idClav)
+        dot.edge(idnodo,idCorA)
+        dot.edge(idnodo,hijo)
+        dot.edge(idnodo,idCorC)
+        dot.edge(idnodo,idPC)
+        
+
+        return idnodo
+
+
 
 class InstruccionImprimir():
     def __init__(self,expresion):
@@ -48,7 +92,8 @@ class InstruccionImprimir():
         
 
         return idnodo
-        
+
+
 class InstruccionImprimirLn():
     def __init__(self,expresion):
         self.expresion=expresion
@@ -58,7 +103,7 @@ class InstruccionImprimirLn():
         global Cursos
         valor= self.expresion.getValor(entorno)
         print(valor)
-        cadena+=valor+'\n'
+        cadena+=valor+'\n\n'
         for x in Cursos:
             for y in x.Pre:
                 print(y)
@@ -95,7 +140,6 @@ class InstruccionImprimirLn():
         return idnodo
 
 
-
 class InstruccionPorNombre():
     def __init__(self,expresion):
         self.expresion=expresion
@@ -113,10 +157,10 @@ class InstruccionPorNombre():
                 cadena+="\nCodigo:\t"+x.Codigo+"\nPrerrequisitos:\t["
                 for y in x.Pre:
                     cadena+=y+","
-                cadena+="]\n************************\n\n"
+                cadena+="]\n************************\n\n\n"
                 break
         if Encontrado==False:
-            cadena+="BUSCANDO POR NOMBRE ("+valor+")....\n***************************\nNO HAY RESULTADOS PARA LA BUSQUEDA\n***************************\n\n"
+            cadena+="BUSCANDO POR NOMBRE ("+valor+")....\n***************************\nNO HAY RESULTADOS PARA LA BUSQUEDA\n***************************\n\n\n"
 
 
     def getNodos(self):
@@ -149,7 +193,6 @@ class InstruccionPorNombre():
         return idnodo
 
 
-
 class InstruccionPorCodigo():
     def __init__(self,expresion):
         self.expresion=expresion
@@ -167,10 +210,10 @@ class InstruccionPorCodigo():
                 cadena+="\nCodigo:\t"+x.Codigo+"\nPrerrequisitos:\t["
                 for y in x.Pre:
                     cadena+=y+","
-                cadena+="]\n************************\n\n"
+                cadena+="]\n************************\n\n\n"
                 break
         if Encontrado==False:
-            cadena+="BUSCANDO POR CODIGO ("+valor+")....\n***************************\nNO HAY RESULTADOS PARA LA BUSQUEDA\n***************************\n\n"
+            cadena+="BUSCANDO POR CODIGO ("+valor+")....\n***************************\nNO HAY RESULTADOS PARA LA BUSQUEDA\n***************************\n\n\n"
 
     def getNodos(self):
         global dot
@@ -224,7 +267,7 @@ class InstruccionPorSemestre():
         
         if Encontrado==False:
             cadena+="NO HAY RESULTADOS PARA LA BUSQUEDA"
-        cadena+="\n****************************\n\n"
+        cadena+="\n****************************\n\n\n"
 
     def getNodos(self):
         global dot
@@ -255,6 +298,122 @@ class InstruccionPorSemestre():
 
         return idnodo
 
+
+class InstruccionPorPostRequisito():
+    def __init__(self,expresion):
+        self.expresion=expresion
+    
+    def ejecutar(self,entorno):
+        global cadena
+        global Cursos
+        Encontrado=False
+        valor= self.expresion.getValor(entorno)
+        print(valor)
+        cadena+="BUSCANDO POSTRREQUISITOS DE ("+valor+")....\n****************************\n"
+        for x in Cursos:
+            if x.Codigo==valor:
+                Encontrado=True
+                cadena+="Curso:"+x.Nombre+"\nPostrrequisitos:\n"
+                break
+
+        for x in Cursos:
+            for y in x.Pre:
+                if y==valor:
+                    cadena+="\t"+x.Nombre+"\n"
+
+        if Encontrado==False:
+            cadena+="NO HAY RESULTADOS PARA LA BUSQUEDA"
+        cadena+="\n****************************\n\n\n"
+
+    def getNodos(self):
+        global dot
+        idnodo=str(Inicio())
+        dot.node(idnodo,'INS_BUSCAR_POSTRREQUISITOS_CURSO')
+
+        idClav=str(Inicio())
+        dot.node(idClav,'cursoPostrrequisitos')
+        
+
+        idParA=str(Inicio())
+        dot.node(idParA,'(')
+        
+        hijo= self.expresion.getNodos()
+        
+        idParC=str(Inicio())
+        dot.node(idParC,')')
+
+        idPC=str(Inicio())
+        dot.node(idPC,';')
+
+        dot.edge(idnodo,idClav)
+        dot.edge(idnodo,idParA)
+        dot.edge(idnodo,hijo)
+        dot.edge(idnodo,idParC)
+        dot.edge(idnodo,idPC)
+        
+
+        return idnodo
+
+
+class InstruccionPorPreRequisito():
+    def __init__(self,expresion):
+        self.expresion=expresion
+    
+    def ejecutar(self,entorno):
+        global cadena
+        global Cursos
+        Encontrado=False
+        valor= self.expresion.getValor(entorno)
+        PreActual=[]
+        print(valor)
+        cadena+="BUSCANDO PRERREQUISITOS DE ("+valor+")....\n****************************\n"
+        for x in Cursos:
+            if x.Codigo==valor:
+                Encontrado=True
+                cadena+="Curso:"+x.Nombre+"\nPrerrequisitos:\n"
+                for y in x.Pre:
+                    PreActual.append(y)
+                break
+
+        
+        for x in PreActual:
+            for y in Cursos:
+                if y.Codigo==x:
+                    cadena+="\t"+y.Nombre+"\n"
+                    break
+
+        if Encontrado==False:
+            cadena+="NO HAY RESULTADOS PARA LA BUSQUEDA"
+        cadena+="\n****************************\n\n\n"
+
+    def getNodos(self):
+        global dot
+        idnodo=str(Inicio())
+        dot.node(idnodo,'INS_BUSCAR_PRERREQUISITOS_CURSO')
+
+        idClav=str(Inicio())
+        dot.node(idClav,'cursosPrerrequisitos')
+        
+
+        idParA=str(Inicio())
+        dot.node(idParA,'(')
+        
+        hijo= self.expresion.getNodos()
+        
+        idParC=str(Inicio())
+        dot.node(idParC,')')
+
+        idPC=str(Inicio())
+        dot.node(idPC,';')
+
+        dot.edge(idnodo,idClav)
+        dot.edge(idnodo,idParA)
+        dot.edge(idnodo,hijo)
+        dot.edge(idnodo,idParC)
+        dot.edge(idnodo,idPC)
+        
+
+        return idnodo
 
 
 
@@ -323,12 +482,17 @@ class InstruccionListaValRegistros2():
         self.lista=lista
     
     def ejecutar(self,entorno):
-        
+        global i
+        i+=1
         if self.instruccion:
-            r=self.instruccion.getValor(entorno)
-            Datos.append(r)
-            if self.lista:
-                self.lista.ejecutar(entorno)
+            if i<=3:
+                r=self.instruccion.getValor(entorno)
+                Datos.append(r)
+                if self.lista:
+                    self.lista.ejecutar(entorno)
+            else:
+                i=0
+                self.instruccion.ejecutar(entorno)
 
     def getNodos(self):
         global dot
@@ -356,7 +520,8 @@ class InstruccionListaValRegistros():
         self.lista=lista
     
     def ejecutar(self,entorno):
-        
+        global i
+        i+=1
         if self.expresion:
             r=self.expresion.getValor(entorno)
             Datos.append(r) 

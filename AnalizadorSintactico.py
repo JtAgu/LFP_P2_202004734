@@ -150,7 +150,7 @@ class AnalizadorSintactico:
             else:
                 self.listaErrores.append(Error("Se esperaba (","Sintactico",self.ListaTokens[self.i].linea,self.ListaTokens[self.i].columna+1))
 
-#CursoPostrequisito
+#CursoPrerequisito
     def val_PreR(self):
         if self.ListaTokens[self.i].tipo == 'ENTERO' :
             lexema=self.ListaTokens[self.i].lexema
@@ -170,7 +170,7 @@ class AnalizadorSintactico:
                     self.i += 1 
                     if self.ListaTokens[self.i].tipo == 'PUNTO_COMA' :
                         self.i += 1 
-                        return InstruccionImprimir(expresion)
+                        return InstruccionPorPreRequisito(expresion)
                     else:
                         self.listaErrores.append(Error("Se esperaba ;","Sintactico",self.ListaTokens[self.i].linea,self.ListaTokens[self.i].columna+1))
                 else:
@@ -198,7 +198,7 @@ class AnalizadorSintactico:
                     self.i += 1 
                     if self.ListaTokens[self.i].tipo == 'PUNTO_COMA' :
                         self.i += 1 
-                        return InstruccionImprimir(expresion)
+                        return InstruccionPorPostRequisito(expresion)
                     else:
                         self.listaErrores.append(Error("Se esperaba ;","Sintactico",self.ListaTokens[self.i].linea,self.ListaTokens[self.i].columna+1))
                 else:
@@ -269,6 +269,7 @@ class AnalizadorSintactico:
 #CREAR CURSO
 
     def ValPre(self):
+        print("VALOR PRE ")
         if self.ListaTokens[self.i].tipo=='ENTERO':
             lexema=self.ListaTokens[self.i].lexema
             exp=ExpresionLiteral('entero',lexema)
@@ -280,6 +281,7 @@ class AnalizadorSintactico:
             self.listaErrores.append(Error("Token "+self.ListaTokens[self.i].tipo+" no esperado","Sintactico",self.ListaTokens[self.i].linea,self.ListaTokens[self.i].columna+1))
 
     def Lista_Pre2(self):
+        print("LISTA PRE 2")
         if self.ListaTokens[self.i].tipo=='COMA':
             self.i+=1
             exp=self.ValPre()
@@ -291,6 +293,7 @@ class AnalizadorSintactico:
             self.listaErrores.append(Error("Token "+self.ListaTokens[self.i].tipo+" no esperado","Sintactico",self.ListaTokens[self.i].linea,self.ListaTokens[self.i].columna+1))    
 
     def Lista_Pre(self):
+        print("LISTA PRE")
         if self.ListaTokens[self.i].tipo=='CorcheteA':
             self.i+=1
             exp=self.ValPre()
@@ -302,6 +305,7 @@ class AnalizadorSintactico:
             self.listaErrores.append(Error("Token "+self.ListaTokens[self.i].tipo+" no esperado","Sintactico",self.ListaTokens[self.i].linea,self.ListaTokens[self.i].columna+1))
 
     def val_curso(self):
+        print("VAL CURSO")
         if self.ListaTokens[self.i].tipo == 'CADENA' :
             lexema=self.ListaTokens[self.i].lexema
             exp=ExpresionLiteral('cadena',lexema)
@@ -314,12 +318,12 @@ class AnalizadorSintactico:
             return exp
         elif self.ListaTokens[self.i].tipo == 'CorcheteA' :
             lista=self.Lista_Pre()
-            exp=ExpresionLiteral('cadena',"")
-            return exp
+            return lista
         else: 
             self.listaErrores.append(Error("Token "+self.ListaTokens[self.i].tipo+" no esperado","Sintactico",self.ListaTokens[self.i].linea,self.ListaTokens[self.i].columna+1))
 
     def lista_val_crear2(self):
+        print("LISTA CREAR 2")
         if self.ListaTokens[self.i].tipo == 'ParentesisC' :
             pass
         elif self.ListaTokens[self.i].tipo == 'COMA' :
@@ -331,6 +335,7 @@ class AnalizadorSintactico:
             self.listaErrores.append(Error("Token "+self.ListaTokens[self.i].tipo+" no esperado","Sintactico",self.ListaTokens[self.i].linea,self.ListaTokens[self.i].columna+1))
 
     def lista_val_crear(self):
+        print("LISTA CREAR")
         exp=self.val_curso()
         lista=self.lista_val_crear2()
         return InstruccionListaValRegistros(exp,lista)
@@ -377,7 +382,7 @@ class AnalizadorSintactico:
                     self.i += 1 
                     if self.ListaTokens[self.i].tipo == 'PUNTO_COMA' :
                         self.i += 1 
-                        return InstruccionImprimir(expresion)
+                        return InstruccionNombrandoRed(expresion)
                     else:
                         self.listaErrores.append(Error("Se esperaba ;","Sintactico",self.ListaTokens[self.i].linea,self.ListaTokens[self.i].columna+1))
                 else:
