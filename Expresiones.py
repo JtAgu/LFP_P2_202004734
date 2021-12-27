@@ -2,7 +2,7 @@ from graphviz import Graph
 
 
 dot = Graph('arbol', 'png')
-dot.format = 'png'
+dot.format = 'pdf'
 dot.attr(splines = 'false')
 dot.node_attr.update(shape = 'circle')
 dot.edge_attr.update(color = 'black')
