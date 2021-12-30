@@ -109,7 +109,7 @@ class Ui_MainWindow(object):
         cadena=self.Sintactico.analizar(self.scanner.listaTokens)
         self.Sintactico.ImpErrores()
         self.ConsolaArea.setText(cadena)
-        self.BTN_Reportar.setDisabled(True)
+        self.BTN_Reportar.setDisabled(False)
         
 
     def FuncionCargar(self):
@@ -206,7 +206,7 @@ class Ui_MainWindow(object):
                 file.close()
                 webbrowser.open_new_tab("Tokens.html")
         else:
-            webbrowser.open_new_tab("arbol.gv.png")
+            webbrowser.open_new_tab("arbol.gv.pdf")
 
 if __name__ == "__main__":
     import sys
